@@ -84,11 +84,8 @@ class PlackettLuceModel(nn.Module):
             if item_mask is not None:
                 ranking_scores = ranking_scores * item_mask[b]
 
-            # If top_k is provided, only consider the top k items in the likelihood calculation
-            if top_k is not None:
-                ranking_scores = ranking_scores[:top_k]
-
             for i in range(ranking_scores.shape[0]):
+                if top_k is not None and i == top_k: break
                 denominator = torch.logsumexp(ranking_scores[i:], dim=0)
                 nll -= ranking_scores[i] - denominator
                 
