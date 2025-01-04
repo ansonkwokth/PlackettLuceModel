@@ -7,6 +7,19 @@ This repository provides an implementation of the Plackett-Luce model for rankin
 - Training with negative log-likelihood (NLL) loss.
 - Early stopping to prevent overfitting.
 - Customizable parameters for model training.
+## Mathematical Definition
+
+The probability of a ranking $\pi = (\pi_1, \pi_2, \ldots, \pi_n)$ is given by:
+
+$$P(\pi | s_1, s_2, \ldots, s_n) = \prod_{k=1}^n \frac{\exp(s_{\pi_k})}{\sum_{j=k}^n \exp(s_{\pi_j})}$$
+
+Where:
+- $s_i$ is the score assigned to item $i$.
+- $\pi_k$ is the $k$-th ranked item in the ranking $\pi$.
+- $\sum_{j=k}^n \exp(s_{\pi_j})$ represents the sum of exponentiated scores for items ranked $k$ to $n$.
+
+The model ensures that higher scores result in higher ranks, as items with higher scores contribute more to the product of probabilities.
+
 
 ## Features
 - **Flexible NN Input**: Pass your custom neural network for scoring, as long as it outputs 1D scores.
