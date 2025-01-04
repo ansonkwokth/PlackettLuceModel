@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 
+torch.manual_seed(0)
 
 def secret_scoring_function(features):
     """
