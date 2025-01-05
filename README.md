@@ -37,7 +37,7 @@ git clone https://github.com/ansonkwokth/PlackettLuceModel.git
 cd PlackettLuceModel
 
 # Install dependencies
-pip install -r requirements.txt
+pip install .
 ```
 
 ## Usage
