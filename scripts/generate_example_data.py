@@ -1,4 +1,11 @@
+import sys
+import os
+
+# Add the parent directory (the root of the project) to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from plackett_luce import datasets as ds
+import pandas as pd
 
 
 def generate_dataframe(num_samples, num_items_range=(8, 14)):
@@ -17,8 +24,11 @@ def generate_dataframe(num_samples, num_items_range=(8, 14)):
 
 def save_dataframe():
     df = generate_dataframe(10000)
-    df.to_csv('../data/example_data/example_data.csv', index=False)
+    # df.to_csv('./example_data.csv', index=False)
+    df.to_csv('./data/example_data/example_data.csv', index=False)
 
 
 if __name__ == '__main__':
+    print(os.getcwd())
+    os.makedirs("data/example_data") 
     save_dataframe()
