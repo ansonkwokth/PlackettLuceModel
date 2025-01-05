@@ -140,7 +140,7 @@ class DataLoader:
 
         # Convert to PyTorch tensors
         X = torch.tensor(X, dtype=torch.float32)
-        rankings = torch.tensor(rankings, dtype=torch.float32)  # Use float32 for rankings to handle NaNs
+        rankings = torch.tensor(rankings, dtype=torch.int32)  # Use float32 for rankings to handle NaNs
         mask = torch.tensor(mask, dtype=torch.int32)
 
         return X, rankings, mask
