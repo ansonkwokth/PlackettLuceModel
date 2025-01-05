@@ -55,7 +55,8 @@ class PlackettLuceModel(nn.Module):
         scores = self.score_model(X_flat).view(batch_size, num_items)  # Reshape back
 
         if item_mask is not None:
-            scores = scores * item_mask  # Apply mask
+            scores[item_mask == 0] = -torch.inf
+            # scores = scores * item_mask  # Apply mask
 
         return scores
 
@@ -76,13 +77,11 @@ class PlackettLuceModel(nn.Module):
         """
         batch_size, num_items = scores.shape
         nll = 0.0
-        for b in range(batch_size):
-            ranking = rankings[b]  # Ranking for sample b
-            ranking_scores = scores[b, ranking]  # Scores in the order of the ranking
-
+        for b in range(batch_size):            
             # Apply item mask if provided
-            if item_mask is not None:
-                ranking_scores = ranking_scores * item_mask[b]
+            # if item_mask is not None:
+            ranking = rankings[b] * item_mask[b]  # Ranking for sample b
+            ranking_scores = scores[b, ranking]  # Scores in the order of the ranking
 
             for i in range(ranking_scores.shape[0]):
                 if top_k is not None and i == top_k: break
@@ -174,4 +173,5 @@ class PlackettLuceModel(nn.Module):
                     prob *= (config_scores[i].exp() / denominator).item()
                 probs.append(prob)
             return probs
+
 

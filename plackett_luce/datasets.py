@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+import random
 
 torch.manual_seed(0)
 
@@ -57,5 +58,38 @@ def generate_data(num_samples, num_items):
 
     rankings = torch.stack(rankings)  # Stack rankings into a single tensor
     return X_data, rankings
+
+
+
+
+
+def generate_data_varaible_items(num_samples, num_items_range):
+    """
+    Generate random data with varying num_items for the given number of samples.
+
+    Parameters:
+        ds: Dataset object with a `generate_data` method.
+        num_samples (int): Total number of samples to generate.
+        num_items_range (tuple): Range (min, max) for `num_items` (inclusive).
+
+    Returns:
+        tuple: X_train (list), rankings_train (list), n_features (int)
+    """
+    # Initialize empty lists to store generated data
+    X = []
+    rankings = []
+    n_features = None  # To be set after the first generation
+
+    # Generate data
+    for _ in range(num_samples):
+        num_items = random.randint(*num_items_range)  # Randomly pick num_items
+        X_temp, rankings_temp = generate_data(num_samples=1, num_items=num_items)
+        
+        X.extend(X_temp.tolist())
+        rankings.extend(rankings_temp.tolist())
+
+    return X, rankings
+
+
 
 
